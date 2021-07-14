@@ -1,5 +1,4 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
 import {
   OrderData,
