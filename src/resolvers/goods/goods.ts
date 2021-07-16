@@ -22,6 +22,6 @@ export class GoodsResolver {
     name: 'goodsData',
   })
   goods(@Args('param') param: GoodsParam): Promise<GoodsData> {
-    return this.goodsService.getGoodsById(param.goodsId);
+    return this.goodsService.getGoods(param);
   }
 }

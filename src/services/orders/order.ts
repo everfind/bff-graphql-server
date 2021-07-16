@@ -4,11 +4,25 @@ import {
   OrderData,
   OrderListData,
   OrderListParam,
+  OrderParam,
 } from 'src/models/orders/model';
 
 @Injectable()
 export class OrderService {
   constructor(private readonly http: HttpService) {}
+
+  getOrder(param: OrderParam): Promise<OrderData> {
+    return Promise.resolve({
+      orderNo: 'o-0001',
+      pay: 100,
+      comment: '订单备注',
+      goodsId: 'g-0001',
+    });
+    // return this.http
+    //   .get<OrderData>('/goodsservice/rest/order/detail', { params: param })
+    //   .toPromise()
+    //   .then((resp) => resp.data);
+  }
 
   getOrderList(param: OrderListParam): Promise<OrderListData> {
     return this.http

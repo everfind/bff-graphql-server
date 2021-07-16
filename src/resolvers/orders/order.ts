@@ -24,7 +24,7 @@ export class OrderResolver {
     name: 'orderData',
   })
   order(@Args('param') param: OrderParam): Promise<OrderData> {
-    return this.orderService.getOrderByOrderNo(param.orderNo);
+    return this.orderService.getOrder(param);
   }
 }
 
