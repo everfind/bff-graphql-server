@@ -8,8 +8,15 @@ export class OrderData {
   @Field(() => String, { nullable: false, description: '商品 ID' })
   goodsId: string;
 
-  @Field(() => Float, { nullable: false, description: '金额' })
+  @Field(() => Float, {
+    nullable: false,
+    description: '金额',
+    deprecationReason: '弃用',
+  })
   pay: number;
+
+  @Field(() => Float, { nullable: false, description: '订单金额' })
+  payNum: number;
 
   @Field(() => String, { nullable: true, description: '备注信息' })
   comment?: string;

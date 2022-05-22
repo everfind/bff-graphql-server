@@ -1,5 +1,6 @@
 import { HttpService, Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
+import { GOODS_LIST } from 'mock/goods.mock';
 import {
   GoodsData,
   GoodsListData,
@@ -12,22 +13,15 @@ export class GoodsService {
   constructor(private readonly http: HttpService) {}
 
   getGoods(param: GoodsParam): Promise<GoodsData> {
-    return Promise.resolve({
-      goodsId: 'g-0001',
-      goodsName: '商品名称',
-      goodsBrief: '这里有一段商品简介',
-    });
-    // return this.http
-    //   .get<GoodsData>('/goodsservice/rest/goods/detail', { params: param })
-    //   .toPromise()
-    //   .then((resp) => resp.data);
+    return this.getGoodsById(param.goodsId);
   }
 
   getGoodsList(param: GoodsListParam): Promise<GoodsListData> {
-    return this.http
-      .get<GoodsListData>('/goodsservice/rest/goods/list', { params: param })
-      .toPromise()
-      .then((resp) => resp.data);
+    return Promise.resolve(GOODS_LIST);
+    // return this.http
+    //   .get<GoodsListData>('/goodsservice/rest/goods/list', { params: param })
+    //   .toPromise()
+    //   .then((resp) => resp.data);
   }
 
   private goodsLoader = new DataLoader<string, GoodsData>(
@@ -42,23 +36,21 @@ export class GoodsService {
   );
 
   private batchGetGoodsByGoodsId(goodsIdList: string[]): Promise<GoodsData[]> {
-    return this.http
-      .get<GoodsData[]>('/goodsservice/rest/goods/list-by-id', {
-        params: goodsIdList,
-      })
-      .toPromise()
-      .then((resp) => {
-        return resp.data;
-      });
+    return Promise.resolve(GOODS_LIST).then(
+      (goodsListData) => goodsListData.list,
+    );
+    // return this.http
+    //   .get<GoodsData[]>('/goodsservice/rest/goods/list-by-id', {
+    //     params: goodsIdList,
+    //   })
+    //   .toPromise()
+    //   .then((resp) => {
+    //     return resp.data;
+    //   });
   }
 
   getGoodsById(goodsId: string): Promise<GoodsData> {
-    // return this.goodsLoader.load(goodsId);
-    return Promise.resolve({
-      goodsId: 'g-0001',
-      goodsName: '商品名称',
-      goodsBrief: '这里有一段商品简介',
-    });
+    return this.goodsLoader.load(goodsId);
   }
 
   getGoodsByIdList(goodsIdList: string[]): Promise<(GoodsData | Error)[]> {

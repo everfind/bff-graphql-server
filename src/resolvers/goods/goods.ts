@@ -1,4 +1,4 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import {
   GoodsData,
   GoodsListData,
@@ -23,5 +23,16 @@ export class GoodsResolver {
   })
   goods(@Args('param') param: GoodsParam): Promise<GoodsData> {
     return this.goodsService.getGoods(param);
+  }
+}
+
+@Resolver(() => GoodsData)
+export class GoodsPropertyResolver {
+  @ResolveField(() => String, {
+    name: 'goodsBrief',
+    nullable: false,
+  })
+  goodsBrief(@Parent() goodsData: GoodsData): string {
+    return `${goodsData.goodsBrief}---测试后缀`;
   }
 }

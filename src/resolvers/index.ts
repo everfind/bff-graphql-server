@@ -1,4 +1,9 @@
-import { GoodsResolver } from './goods/goods';
+import { GoodsPropertyResolver, GoodsResolver } from './goods/goods';
 import { OrderPropertyResolver, OrderResolver } from './orders/order';
 
-export default [OrderResolver, OrderPropertyResolver, GoodsResolver];
+export default [
+  OrderResolver,
+  OrderPropertyResolver,
+  GoodsResolver,
+  GoodsPropertyResolver,
+];

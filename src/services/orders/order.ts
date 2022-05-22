@@ -1,5 +1,6 @@
 import { HttpService, Injectable } from '@nestjs/common';
 import DataLoader from 'dataloader';
+import { ORDER_LIST } from 'mock/order.mock';
 import {
   OrderData,
   OrderListData,
@@ -12,25 +13,17 @@ export class OrderService {
   constructor(private readonly http: HttpService) {}
 
   getOrder(param: OrderParam): Promise<OrderData> {
-    return Promise.resolve({
-      orderNo: 'o-0001',
-      pay: 100,
-      comment: '订单备注',
-      goodsId: 'g-0001',
-    });
-    // return this.http
-    //   .get<OrderData>('/goodsservice/rest/order/detail', { params: param })
-    //   .toPromise()
-    //   .then((resp) => resp.data);
+    return this.getOrderByOrderNo(param.orderNo);
   }
 
   getOrderList(param: OrderListParam): Promise<OrderListData> {
-    return this.http
-      .get<OrderListData>('/orderservice/rest/order/list', { params: param })
-      .toPromise()
-      .then((resp) => {
-        return resp.data;
-      });
+    return Promise.resolve(ORDER_LIST);
+    // return this.http
+    //   .get<OrderListData>('/orderservice/rest/order/list', { params: param })
+    //   .toPromise()
+    //   .then((resp) => {
+    //     return resp.data;
+    //   });
   }
 
   private orderLoader = new DataLoader<string, OrderData>(
@@ -45,14 +38,17 @@ export class OrderService {
   );
 
   private batchGetOrderByOrderNo(orderNoList: string[]): Promise<OrderData[]> {
-    return this.http
-      .get<OrderData[]>('/orderservice/rest/order/list-by-id', {
-        params: orderNoList,
-      })
-      .toPromise()
-      .then((resp) => {
-        return resp.data;
-      });
+    return Promise.resolve(ORDER_LIST).then(
+      (orderListData) => orderListData.list,
+    );
+    // return this.http
+    //   .get<OrderData[]>('/orderservice/rest/order/list-by-id', {
+    //     params: orderNoList,
+    //   })
+    //   .toPromise()
+    //   .then((resp) => {
+    //     return resp.data;
+    //   });
   }
 
   getOrderByOrderNo(orderNo: string): Promise<OrderData> {
